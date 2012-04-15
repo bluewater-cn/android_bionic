@@ -386,6 +386,14 @@ int pthread_create(pthread_t *thread_out, pthread_attr_t const * attr,
     return 0;
 }
 
+#ifdef NASTY_PTHREAD_CREATE_HACK
+int _debug_pthread_create(void *debug0, void *debug1, pthread_t *thread,
+                          const pthread_attr_t *attr,
+                          void *(*start_routine) (void *), void *arg)
+{
+    return pthread_create(thread, attr, start_routine, arg);
+}
+#endif
 
 int pthread_attr_init(pthread_attr_t * attr)
 {
@@ -1947,14 +1955,6 @@ int  pthread_once( pthread_once_t*  once_control,  void (*init_routine)(void) )
         pthread_mutex_unlock( &once_lock );
     }
     return 0;
-}
-
-int _debug_pthread_create(void * debug_a, void * debug_b, pthread_t *thread_out, pthread_attr_t const * attr,
-       void *(*start_routine)(void *), void * arg)
-{
-       debug_a = NULL;
-       debug_b = NULL;
-       return pthread_create(thread_out, attr, start_routine, arg);
 }
 
 /* This value is not exported by kernel headers, so hardcode it here */

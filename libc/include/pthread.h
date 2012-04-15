@@ -138,6 +138,11 @@ int pthread_getattr_np(pthread_t thid, pthread_attr_t * attr);
 
 int pthread_create(pthread_t *thread, pthread_attr_t const * attr,
                    void *(*start_routine)(void *), void * arg);
+#ifdef NASTY_PTHREAD_CREATE_HACK
+int _debug_pthread_create(void *debug0, void *debug1, pthread_t *thread,
+                          const pthread_attr_t *attr,
+                          void *(*start_routine) (void *), void *arg);
+#endif
 void pthread_exit(void * retval);
 int pthread_join(pthread_t thid, void ** ret_val);
 int pthread_detach(pthread_t  thid);
@@ -266,9 +271,6 @@ int pthread_sigmask(int how, const sigset_t *set, sigset_t *oset);
 int pthread_getcpuclockid(pthread_t  tid, clockid_t  *clockid);
 
 int pthread_once(pthread_once_t  *once_control, void (*init_routine)(void));
-
-int _debug_pthread_create(void * debug_a, void * debug_b, pthread_t *thread_out, pthread_attr_t const * attr,
-       void *(*start_routine)(void *), void * arg);
 
 int pthread_setname_np(pthread_t thid, const char *thname);
 
