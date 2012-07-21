@@ -59,6 +59,7 @@
 #  define  __ATOMIC_CLOBBERS        /* nothing */
 #endif
 
+#undef __ARM_HAVE_LDREX_STREX
 
 /* Define a full memory barrier, this is only needed if we build the
  * platform for a multi-core device. For the record, using a 'dmb'
